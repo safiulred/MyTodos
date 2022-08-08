@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  be-todos:
+    container_name: be-todos
+    image: sikomo880/my-todos:1.0.0
+    restart: always
+    networks:
+      - backendnet
+    build: ./
+    env_file: ./.env
+    ports:
+      - 8090:3030
+    environment:
+      - PORT=3030
+      - NODE_ENV=production
+      - MYSQL_HOST=mysql-todos
+      - MYSQL_PORT=3306
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=ujicobatodo
+      - MYSQL_DBNAME=dbcoba
+    volumes:
+      - .:/app
+      - /app/node_modules
+networks:
+  backendnet:
+    external:
+      name: todo-net
