@@ -1,20 +1,17 @@
 const {Todo} = require('../../models')
 
 module.exports = (req, res) => {
-    let payload = req.body
-    let {email} = payload
-    if (email) {
-        email = encodeURIComponent(req.body.email)
-        payload = {
-            ...payload,
-            email
-        }
+    let {title, activity_group_id} = req.body
+    if (!title || !activity_group_id) {
+        res.status(404).send({status:'Failed', message:"Missing paramater"})
     }
-    Todo.create(payload)
-    .then(result=>{
-        res.status(200).send({status:'Success', message:'Success', data: result})
-    })
-    .catch(err=>{
-        res.status(500).send({status:"Failed"})
-    })
+    else {
+        Todo.create({...req.body})
+        .then(result=>{
+            res.status(200).send({status:'Success', message:'Success', data: result})
+        })
+        .catch(err=>{
+            res.status(500).send({status:"Failed"})
+        })
+    }
 }

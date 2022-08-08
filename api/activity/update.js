@@ -6,7 +6,7 @@ module.exports = (req, res) => {
     Activity.update({...req.body},{where:{id}})
     .then(async result=> {
         if (result.includes(0)) {
-            res.status(200).send({status:'Success', message:'Success', data: null})
+            res.status(404).send({status:'Failed', message:'Failed', data: null})
         }
         else {
             const activity = await Activity.findOne({id})
