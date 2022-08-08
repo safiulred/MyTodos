@@ -6,7 +6,7 @@ module.exports = (req, res) => {
     Todo.update({...req.body},{where:{id}})
     .then(async result=> {
         if (result.includes(0)) {
-            res.status(404).send({status:'Failed', message:'Failed', data: null})
+            res.status(404).send({status:'Failed', message:'Failed', data: {}})
         }
         else {
             const todo = await Todo.findOne({id})

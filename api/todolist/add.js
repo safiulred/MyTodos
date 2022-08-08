@@ -11,6 +11,7 @@ module.exports = (req, res) => {
             res.status(200).send({status:'Success', message:'Success', data: result})
         })
         .catch(err=>{
+            console.log('Err : ', err)
             res.status(500).send({status:"Failed"})
         })
     }

@@ -6,10 +6,10 @@ module.exports = (req, res) => {
     Todo.destroy({where:{id}})
     .then(result=>{
         if (result===0) {
-            res.status(404).send({status:'Failed', message:'Failed', data: null})
+            res.status(404).send({status:'Failed', message:'Failed', data: {}})
         }
         else {
-            res.status(200).send({status:'Success', message:'Success', data: null})
+            res.status(200).send({status:'Success', message:'Success', data: {}})
         }
     })
     .catch(err=>{

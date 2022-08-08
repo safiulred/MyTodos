@@ -4,6 +4,8 @@ const bodyParser = require('body-parser')
 const app = express()
 const cors = require('cors');
 
+const migrate = require('./migrate')
+
 const env = process.env.NODE_ENV || 'development'
 const config = require('./config/core')[env]
 
@@ -17,9 +19,12 @@ const port = config.port
 
 app.use(router)
 
-app.listen(port, () =>{
-    console.log(`app running on [${env}] environment on port : ${port}`)
+migrate(()=> {
+    app.listen(port, () =>{
+        console.log(`app running on [${env}] environment on port : ${port}`)
+    })
 })
+
 process.on('exit',code=>{
     console.error(`Exit code : ${code}`)
 })

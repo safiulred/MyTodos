@@ -8,7 +8,7 @@ module.exports = (req, res) => {
             res.status(200).send({status:"Success",message:"Success",data:result})
         }
         else {
-            res.status(404).send({status:'Failed', message:'Failed', data: result})
+            res.status(404).send({status:'Failed', message:'Failed', data: {}})
         }
     })
     .catch(err=>{
