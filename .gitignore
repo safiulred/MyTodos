@@ -5,3 +5,5 @@ package-lock.json
 yarn.lock
 collection.json
 Dockerfile
+docker-compose.yml
+note.txt
