@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
 			defaultValue:true
 		},
 		priority: {
-			type : DataTypes.ENUM(['very-high', 'hight', 'medium', 'low', 'very-low']),
+			type : DataTypes.ENUM(['very-high', 'hight','normal', 'low', 'very-low']),
 			defaultValue:'very-high'
 		}
 	}, {
@@ -20,8 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     Todo.associate = function(models) {
 		Todo.belongsTo(models.Activity,{
 			foreignKey: {
-				fields: "activity_group_id",
-				allowNull: false,
+				fields: "activity_group_id"
 			}
 		})
 	}

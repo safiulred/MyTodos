@@ -1,37 +1,38 @@
-const {Activity} = require('../../models')
+const {Activity, Todo} = require('../../models')
+
 const url = require('url');
 
 module.exports = (req, res) => {
-    const id = req.params.groupId
     const url_parts = url.parse(req.url, true);
     const query = url_parts.query;
+    const params = req.params
     
-    console.log('[QUERY] ', query)
     let where = {
-        ...query,
-        id : id,
-    }
-    if (query['email']) {
-        const email = encodeURIComponent(query['email'])
-        where = {
-            ...where,
-            email
-        }
+        id:params.id,
+        ...query
     }
     
     console.log('[GET ACTIVITY] ', where)
     Activity.findOne({
         where : where,
+        include : {
+            model : Todo,
+            as : 'todo_items'
+        }, 
         order : [['id', 'ASC']]
     })
     .then(result=>{
         if (result) {
-            res.status(200).send({status:"Success", data:result})
+            res.status(200).json({
+                status:"Success", 
+                code : 200,
+                data:result
+            })
         }
         else {
             res.status(404).send({
                 status: "Not Found",
-                message: `No record found for id ${id}`,
+                message: `Activity with ID ${params.id} Not Found`,
                 code: 404,
                 "errors": {}
             })
@@ -40,7 +41,7 @@ module.exports = (req, res) => {
     .catch(err=>{
         console.log('Err : ', err)
         res.status(400).send({
-            status:"Bad Request", 
+            status:"Bad Reques", 
             code:400,
             message : err.message,
             data: {}

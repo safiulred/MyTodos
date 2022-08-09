@@ -28,7 +28,7 @@ module.exports = (req, res) => {
         if (result===0) {
             res.status(404).send({
                 status: "Not Found",
-                message: `No record found for id ${ids}`,
+                message: `Todo with ID ${req.params.id?req.params.id:req.query.id} Not Found`,
                 code: 404
             })
         }

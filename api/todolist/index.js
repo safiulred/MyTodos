@@ -6,9 +6,9 @@ const Update = require('./update')
 const Remove = require('./remove')
 
 Router.get('/', GetAll)
-Router.get('/:todoId', Get)
+Router.get('/:id', Get)
 Router.post('/', Add)
-Router.patch('/:todoId', Update)
-Router.delete('/:todoId', Remove)
+Router.patch('/:id', Update)
+Router.delete('/:id', Remove)
 
 module.exports = Router

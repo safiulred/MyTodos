@@ -7,7 +7,7 @@ const Update = require('./update')
 const Remove = require('./remove')
 
 Router.get('/', GetAll)
-Router.get('/:groupId', Get)
+Router.get('/:id', Get)
 Router.post('/', Add)
 Router.patch('/:groupId', Update)
 Router.delete('/:groupId', Remove)

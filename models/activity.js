@@ -7,7 +7,6 @@ module.exports = (sequelize, DataTypes) => {
         },
         email:{
             type: DataTypes.STRING,
-            allowNull: false,
         }
     },{
         paranoid:true
@@ -15,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
 
     Activity.associate = function(models) {
         Activity.hasMany(models.Todo,{
+            as : 'todo_items',
 			foreignKey:'activity_group_id'
 		})
 	}

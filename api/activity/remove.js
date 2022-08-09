@@ -14,25 +14,27 @@ module.exports = (req, res) => {
         ids = [...query.id.split(',')]
     }
     else {
-        ids = [...todoId.split(',')]
+        ids = [...groupId.split(',')]
     }
-    const where = {id:{
-        [Op.in] : ids
-    }}
+    const where = {
+        id:{
+            [Op.in] : ids
+        }
+    }
 
     console.log('[DEL ACTIVITY] ', where)
     Activity.destroy({where})
     .then(result=>{
-        res.status(200).send([{}])
-        // if (result===0) {
-        //     res.status(404).send({
-        //         status: "Not Found",
-        //         message: `No record found for id ${ids}`,
-        //         code: 404
-        //     })
-        // }
-        // else {
-        // }
+        if (result===0) {
+            res.status(404).send({
+                status: "Not Found",
+                message: `Activity with ID ${req.params.id?req.params.id:req.query.id} Not Found`,
+                code: 404
+            })
+        }
+        else {
+            res.status(200).send({status:'Success', data:result})
+        }
     })
     .catch(err=>{
         console.log('Err : ', err)
