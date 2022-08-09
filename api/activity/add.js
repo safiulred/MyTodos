@@ -1,25 +1,26 @@
 const {Activity} = require('../../models')
 
 module.exports = (req, res) => {
-    let body = req.body
-    console.log('[INSERT BODY]', body)
-    let {email, title} = body
+    let payload = req.body
+    console.log('[INSERT BODY]', payload)
+    let {email, title} = payload
     let dataInsert = {
         title:title,
     }
     
     if (!title) {
         return res.status(400).send({
-            status:"Bad Reques", 
+            status:"Bad Request", 
             code:400,
             message: 'title cannot be null'
         })
     }
 
     if (email) {
+        let arr = email.split('@')
         dataInsert = {
             ...dataInsert,
-            email: encodeURIComponent(body.email)
+            email: `${encodeURIComponent(arr[0])}${arr[1]}`
         }
     }
 
@@ -31,7 +32,7 @@ module.exports = (req, res) => {
     .catch(err=>{
         console.log('Err : ', err)
         res.status(400).send({
-            status:"Bad Reques",
+            status:"Bad Request",
             message : err.message,
             code:400,
             data: {}

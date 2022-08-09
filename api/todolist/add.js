@@ -7,7 +7,7 @@ module.exports = (req, res) => {
     
     if (!title) {
         return res.status(400).send({
-            status:"Bad Reques", 
+            status:"Bad Request", 
             code:400,
             message: 'title cannot be null'
         })
@@ -15,11 +15,12 @@ module.exports = (req, res) => {
     
     if (!activity_group_id) {
         return res.status(400).send({
-            status:"Bad Reques", 
+            status:"Bad Request", 
             code:400,
             message: 'activity_group_id cannot be null'
         })
     }
+    
     Todo.create({...payload})
     .then(result=>{
         return res.status(201).send({status:"Success", data:result})
@@ -27,7 +28,7 @@ module.exports = (req, res) => {
     .catch(err=>{
         console.log('[ERR ADD TODO] ', err)
         return res.status(400).send({
-            status:"Bad Reques", 
+            status:"Bad Request", 
             code:400,
             message : err.message,
             data: {}

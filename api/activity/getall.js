@@ -24,7 +24,7 @@ module.exports = (req, res) => {
     .catch(err=>{
         console.log('Err : ', err)
         res.status(400).send({
-            status:"Bad Request", 
+            status:"Bad Requestt", 
             message: err.message,
             code : 400
         })

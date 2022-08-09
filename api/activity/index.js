@@ -9,7 +9,7 @@ const Remove = require('./remove')
 Router.get('/', GetAll)
 Router.get('/:id', Get)
 Router.post('/', Add)
-Router.patch('/:groupId', Update)
-Router.delete('/:groupId', Remove)
+Router.patch('/:id', Update)
+Router.delete('/:id', Remove)
 
 module.exports = Router

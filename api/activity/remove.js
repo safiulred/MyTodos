@@ -5,8 +5,8 @@ const url = require('url');
 module.exports = (req, res) => {
     const url_parts = url.parse(req.url, true);
     const query = url_parts.query;
-    const groupId = req.params.groupId
-    console.log('[groupId] ', req.params)
+    const params = req.params
+    console.log('[groupId] ', params)
     console.log('[query] ', query)
 
     let ids = []
@@ -14,7 +14,7 @@ module.exports = (req, res) => {
         ids = [...query.id.split(',')]
     }
     else {
-        ids = [...groupId.split(',')]
+        ids = [...params.id.split(',')]
     }
     const where = {
         id:{
@@ -28,18 +28,21 @@ module.exports = (req, res) => {
         if (result===0) {
             res.status(404).send({
                 status: "Not Found",
-                message: `Activity with ID ${req.params.id?req.params.id:req.query.id} Not Found`,
+                message: `Activity with ID ${params.id?params.id:query.id} Not Found`,
                 code: 404
             })
         }
         else {
-            res.status(200).send({status:'Success', data:result})
+            res.status(200).send({
+                status:'Success', 
+                data:{}
+            })
         }
     })
     .catch(err=>{
         console.log('Err : ', err)
         res.status(400).send({
-            status:"Bad Reques",
+            status:"Bad Request",
             code:400,
             message : err.message,
             data: {}

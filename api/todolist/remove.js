@@ -6,7 +6,8 @@ const url = require('url');
 module.exports = (req, res) => {
     const url_parts = url.parse(req.url, true)
     const query = url_parts.query
-    const todoId = req.params.todoId
+    const params = req.params
+    // const todoId = req.params.todoId
     console.log('[todoId] ', req.params)
     console.log('[query] ', query)
     
@@ -15,7 +16,7 @@ module.exports = (req, res) => {
         ids = [...query.id.split(',')]
     }
     else {
-        ids = [...todoId.split(',')]
+        ids = [...params.id.split(',')]
     }
     const where = {id:{
         [Op.in] : ids
@@ -28,17 +29,20 @@ module.exports = (req, res) => {
         if (result===0) {
             res.status(404).send({
                 status: "Not Found",
-                message: `Todo with ID ${req.params.id?req.params.id:req.query.id} Not Found`,
+                message: `Todo with ID ${params.id?params.id:query.id} Not Found`,
                 code: 404
             })
         }
         else {
-            res.status(200).send({status:'Success', data:result})
+            res.status(200).send({
+                status:'Success',
+                data:{}
+            })
         }
     })
     .catch(err=>{
         res.status(400).send({
-            status:"Bad Reques",
+            status:"Bad Request",
             code:400,
             message : err.message,
             data: {}

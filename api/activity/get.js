@@ -15,10 +15,6 @@ module.exports = (req, res) => {
     console.log('[GET ACTIVITY] ', where)
     Activity.findOne({
         where : where,
-        include : {
-            model : Todo,
-            as : 'todo_items'
-        }, 
         order : [['id', 'ASC']]
     })
     .then(result=>{
@@ -41,7 +37,7 @@ module.exports = (req, res) => {
     .catch(err=>{
         console.log('Err : ', err)
         res.status(400).send({
-            status:"Bad Reques", 
+            status:"Bad Request", 
             code:400,
             message : err.message,
             data: {}
