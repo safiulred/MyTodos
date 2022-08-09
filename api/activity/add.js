@@ -1,10 +1,13 @@
 const {Activity} = require('../../models')
 
 module.exports = (req, res) => {
-    let payload = req.body
+    const arg = Object.keys(req.body)
+    const raw = arg[0].replace(/\n/gi, '')
+    
+    let payload = JSON.parse(raw)
     let {email, title} = payload
     if (!email || !title) {
-        res.status(400).send({status:'Failed', message:"Missing paramater", data:{}})
+        res.status(400).send({status:'Not Found', message:"Not Found", data:{}})
     }
     else {
         if (email) {
@@ -20,7 +23,7 @@ module.exports = (req, res) => {
         })
         .catch(err=>{
             console.log('Err : ', err)
-            res.status(400).send({status:"Failed", message : "Failed", data: {}})
+            res.status(400).send({status:"Not Found", message : "Not Found", data: {}})
         })
     }
 }

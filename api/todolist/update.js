@@ -10,7 +10,7 @@ module.exports = (req, res) => {
         Todo.update({...req.body},{where:{id}})
         .then(async result=> {
             if (result.includes(0)) {
-                res.status(404).send({status:'Failed', message:'Failed', data: {}})
+                res.status(404).send({status:'Not Found', message:'Not Found', data: {}})
             }
             else {
                 const todo = await Todo.findOne({id})
@@ -18,7 +18,7 @@ module.exports = (req, res) => {
             }
         })
         .catch(err=>{
-            res.status(500).send({status:"Failed"})
+            res.status(500).send({status:"Not Found", message: "Not Found", data: {}})
         })
     }
 }

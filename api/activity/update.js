@@ -2,14 +2,19 @@ const {Activity} = require('../../models')
 
 module.exports = (req, res) => {
     const id = req.params.groupId
+    
+    const arg = Object.keys(req.body)
+    const raw = arg[0].replace(/\n/gi, '')
+    let payload = JSON.parse(raw)
+
     if (!id) {
-        res.status(404).send({status:'Not Found', message:`Activity with ID ${id} Not Found`, data: {}})
+        res.status(404).send({status:'Not Found', message:`Not Found`, data: {}})
     }
     else {
-        Activity.update({...req.body},{where:{id}})
+        Activity.update({...payload},{where:{id}})
         .then(async result=> {
             if (result.includes(0)) {
-                res.status(404).send({status:'Not Found', message:`Activity with ID ${id} Not Found`, data: {}})
+                res.status(404).send({status:'Not Found', message:`Not Found`, data: {}})
             }
             else {
                 const activity = await Activity.findOne({where:{id}})

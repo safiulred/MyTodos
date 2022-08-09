@@ -2,12 +2,18 @@ const {Activity} = require('../../models')
 
 module.exports = (req, res) => {
     const id = req.params.groupId
+    const query = req.query
+    
     if (!id) {
-        res.status(404).send({status:'Not Found', message:`Activity with ID ${id} Not Found`, data: {}})
+        res.status(404).send({status:'Not Found', message:`Not Found`, data: {}})
     }
     else {
+        let where = {
+            id,
+            query
+        }
         Activity.findOne({
-            where : {id},
+            where : {where},
             order : [['id', 'ASC']]
         })
         .then(result=>{
