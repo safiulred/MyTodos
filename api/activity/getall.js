@@ -1,7 +1,21 @@
 const {Activity} = require('../../models')
+const url = require('url');
 
 module.exports = (req, res) => {
+    const url_parts = url.parse(req.url, true);
+    let query = url_parts.query;
+
+    if (query['email']) {
+        const email = encodeURIComponent(query['email'])
+        query = {
+            ...query,
+            email
+        }
+    }
+
+    console.log('[QUERY ALL ACTIVITY] ', query)
     Activity.findAll({
+        where : query,
         order :[['id','ASC']]
     })
     .then(result=>{
@@ -9,6 +23,10 @@ module.exports = (req, res) => {
     })
     .catch(err=>{
         console.log('Err : ', err)
-        res.status(500).send({status:"Failed", message:'Failed'})
+        res.status(400).send({
+            status:"Bad Request", 
+            message: err.message,
+            code : 400
+        })
     })
 }

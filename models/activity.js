@@ -1,8 +1,14 @@
 'use strict'
 module.exports = (sequelize, DataTypes) => {
     const Activity = sequelize.define('Activity',{
-        email: DataTypes.STRING,
-        title: DataTypes.STRING
+        title: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        email:{
+            type: DataTypes.STRING,
+            allowNull: false,
+        }
     },{
         paranoid:true
     })

@@ -1,7 +1,10 @@
 'use strict'
 module.exports = (sequelize, DataTypes) => {
     const Todo = sequelize.define('Todo', {
-		title: DataTypes.STRING,
+		title: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
 		is_active: {
 			type:DataTypes.BOOLEAN,
 			defaultValue:true
@@ -17,7 +20,8 @@ module.exports = (sequelize, DataTypes) => {
     Todo.associate = function(models) {
 		Todo.belongsTo(models.Activity,{
 			foreignKey: {
-				fields: "activity_group_id"
+				fields: "activity_group_id",
+				allowNull: false,
 			}
 		})
 	}

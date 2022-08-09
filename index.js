@@ -27,11 +27,11 @@ migrate(()=> {
 })
 
 process.on('exit',code=>{
-    console.error(`Exit code : ${code}`)
+    console.log(`Exit code : ${code}`)
 })
 process.on('uncaughtException',err=>{
-    console.error(err)
+    console.log(err)
 })
 process.on('unhandledRejection',err=>{
-    console.error(err)
+    console.log(err)
 })

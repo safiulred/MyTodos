@@ -2,21 +2,26 @@ const {Todo} = require('../../models')
 
 module.exports = (req, res) => {
     const id = req.params.todoId
-    if (!id) {
-        res.status(404).send({status:'Not Found', message:`Todo with ID ${id} Not Found`, data: {}})
-    }
-    else {
-        Todo.findOne({where:{id}})
-        .then(result=>{
-            if (result) {
-                res.status(200).send({status:"Success",message:"Success",data:result})
-            }
-            else {
-                res.status(404).send({status:'Not Found', message:`Todo with ID ${id} Not Found`, data: {}})
-            }
+    Todo.findOne({where:{id:id}})
+    .then(result=>{
+        if (result) {
+            res.status(200).send({status:"Success", data:result})
+        }
+        else {
+            res.status(404).send({
+                status: "Not Found",
+                message: `No record found for id ${id}`,
+                code: 404,
+                "errors": {}
+            })
+        }
+    })
+    .catch(err=>{
+        res.status(400).send({
+            status:"Bad Request", 
+            code:400,
+            message : err.message,
+            data: {}
         })
-        .catch(err=>{
-            res.status(404).send({status:"Failed", message:'Failed', data:{}})
-        })
-    }
+    })
 }

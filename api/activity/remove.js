@@ -1,24 +1,46 @@
 const {Activity} = require('../../models')
+const {Op} = require('sequelize')
 
+const url = require('url');
 module.exports = (req, res) => {
-    const id = req.params.groupId
+    const url_parts = url.parse(req.url, true);
+    const query = url_parts.query;
+    const groupId = req.params.groupId
+    console.log('[groupId] ', req.params)
+    console.log('[query] ', query)
 
-    if (!id) {
-        res.status(404).send({status:'Not Found', message:`Activity with ID ${id} Not Found`, data: {}})
+    let ids = []
+    if (query.id) {
+        ids = [...query.id.split(',')]
     }
     else {
-        Activity.destroy({where:{id}})
-        .then(result=>{
-            if (result===0) {
-                res.status(404).send({status:'Not Found', message:`Activity with ID ${id} Not Found`, data: {}})
-            }
-            else {
-                res.status(200).send({status:'Success', message:'Success', data: {}})
-            }
-        })
-        .catch(err=>{
-            console.log('Err : ', err)
-            res.status(500).send({status:"Failed"})
-        })
+        ids = [...todoId.split(',')]
     }
+    const where = {id:{
+        [Op.in] : ids
+    }}
+
+    console.log('[DEL ACTIVITY] ', where)
+    Activity.destroy({where})
+    .then(result=>{
+        res.status(200).send([{}])
+        // if (result===0) {
+        //     res.status(404).send({
+        //         status: "Not Found",
+        //         message: `No record found for id ${ids}`,
+        //         code: 404
+        //     })
+        // }
+        // else {
+        // }
+    })
+    .catch(err=>{
+        console.log('Err : ', err)
+        res.status(400).send({
+            status:"Bad Reques",
+            code:400,
+            message : err.message,
+            data: {}
+        })
+    })
 }
